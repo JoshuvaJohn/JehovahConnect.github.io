@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jehovah Connect - Rider Application</title>
+  <link href="https://fonts.googleapis.com/css2?family=Calibri:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2C3E50;
+      --accent: #3498DB;
+      --light: #F8F9FA;
+      --medium: #E9ECEF;
+      --dark: #495057;
+      --white: #FFFFFF;
+      --shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Calibri', 'Segoe UI', system-ui, sans-serif;
+    }
+    
+    body {
+      background-color: var(--light);
+      color: var(--dark);
+      line-height: 1.5;
+      padding: 20px;
+    }
+    
+    .logo-container {
+      text-align: right;
+      margin-bottom: 15px;
+    }
+    
+    .logo {
+      height: 60px;
+      width: auto;
+    }
+    
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 40px;
+      background-color: var(--white);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+    }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    h1 {
+      color: var(--primary);
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 5px;
+      letter-spacing: 0.5px;
+    }
+    
+    h2 {
+      color: var(--accent);
+      font-size: 20px;
+      font-weight: 500;
+      margin-bottom: 30px;
+    }
+    
+    .form-section {
+      margin-bottom: 30px;
+    }
+    
+    .form-section h3 {
+      color: var(--primary);
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 15px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--medium);
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--primary);
+      font-size: 15px;
+    }
+    
+    input, select {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid #DEE2E6;
+      border-radius: 8px;
+      font-size: 15px;
+      transition: all 0.3s ease;
+      background-color: var(--white);
+    }
+    
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.15);
+    }
+    
+    .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 8px;
+    }
+    
+    .checkbox-option {
+      display: flex;
+      align-items: center;
+    }
+    
+    .checkbox-option input {
+      width: 18px;
+      height: 18px;
+      margin-right: 10px;
+      accent-color: var(--accent);
+    }
+    
+    .checkbox-option label {
+      font-weight: 400;
+      margin-bottom: 0;
+    }
+    
+    .address-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    
+    .submit-btn {
+      background-color: var(--accent);
+      color: var(--white);
+      border: none;
+      padding: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 20px;
+      transition: all 0.3s ease;
+    }
+    
+    .submit-btn:hover {
+      background-color: #2980B9;
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+    
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .modal-content {
+      background-color: var(--white);
+      padding: 30px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 450px;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+    
+    .consent-checkbox {
+      margin: 25px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .consent-checkbox input {
+      width: 18px;
+      height: 18px;
+      margin-right: 10px;
+      accent-color: var(--accent);
+    }
+    
+    .consent-checkbox label {
+      font-weight: 400;
+      font-size: 15px;
+    }
+    
+    @media (min-width: 768px) {
+      .address-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .checkbox-group {
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+      
+      .checkbox-option {
+        min-width: 120px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="logo-container">
+    <img src="jehovah-logo.png" alt="Jehovah Connect Logo" class="logo">
+  </div>
+
+  <div class="container">
+    <div class="header">
+      <h1>Jehovah Connect</h1>
+      <h2>Rider Application</h2>
+    </div>
+    
+    <form id="riderForm">
+      <div class="form-section">
+        <h3>Personal Information</h3>
+        
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" id="fullName" required>
+        </div>
+        
+        <div class="form-group">
+          <label>Date of Birth</label>
+          <input type="date" id="dob" required onchange="calculateAge()">
+        </div>
+        
+        <div class="form-group">
+          <label>Age</label>
+          <input type="text" id="age" readonly>
+        </div>
+        
+        <div class="form-group">
+          <label>Gender</label>
+          <div class="checkbox-group">
+            <div class="checkbox-option">
+              <input type="checkbox" id="male" name="gender" value="Male">
+              <label for="male">Male</label>
+            </div>
+            <div class="checkbox-option">
+              <input type="checkbox" id="female" name="gender" value="Female">
+              <label for="female">Female</label>
+            </div>
+            <div class="checkbox-option">
+              <input type="checkbox" id="other" name="gender" value="Other">
+              <label for="other">Other</label>
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label>Current Status</label>
+          <div class="checkbox-group">
+            <div class="checkbox-option">
+              <input type="checkbox" id="working" name="status" value="Working">
+              <label for="working">Working</label>
+            </div>
+            <div class="checkbox-option">
+              <input type="checkbox" id="studying" name="status" value="Studying">
+              <label for="studying">Studying</label>
+            </div>
+            <div class="checkbox-option">
+              <input type="checkbox" id="unemployed" name="status" value="Unemployed">
+              <label for="unemployed">Unemployed</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="form-section">
+        <h3>Contact Information</h3>
+        
+        <div class="form-group">
+          <label>Mobile Number</label>
+          <input type="tel" id="mobile" pattern="[0-9]{10}" required>
+        </div>
+        
+        <div class="form-group">
+          <label>Address</label>
+          <div class="address-grid">
+            <input type="text" id="doorNo" placeholder="Door/Flat No" required>
+            <input type="text" id="street" placeholder="Street" required>
+            <input type="text" id="area" placeholder="Area/Locality" required>
+            <input type="text" id="district" placeholder="District" required>
+            <input type="text" id="state" placeholder="State" required>
+            <input type="text" id="postalCode" placeholder="Postal Code" pattern="[0-9]{6}" required>
+          </div>
+        </div>
+      </div>
+      
+      <div class="form-section">
+        <h3>Document Details</h3>
+        
+        <div class="form-group">
+          <label>Aadhaar Number</label>
+          <input type="text" id="aadhar" pattern="[0-9]{12}" required>
+        </div>
+        
+        <div class="form-group">
+          <label>PAN Card Number</label>
+          <input type="text" id="pan" pattern="[A-Za-z]{5}[0-9]{4}[A-Za-z]{1}" required>
+        </div>
+        
+        <div class="form-group">
+          <label>Preferred Shift</label>
+          <div class="checkbox-group">
+            <div class="checkbox-option">
+              <input type="checkbox" id="morning" name="shift" value="Morning">
+              <label for="morning">Morning</label>
+            </div>
+            <div class="checkbox-option">
+              <input type="checkbox" id="afternoon" name="shift" value="Afternoon">
+              <label for="afternoon">Afternoon</label>
+            </div>
+            <div class="checkbox-option">
+              <input type="checkbox" id="both" name="shift" value="Both">
+              <label for="both">Both</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <button type="button" class="submit-btn" onclick="validateForm()">SUBMIT APPLICATION</button>
+    </form>
+  </div>
+
+  <!-- Consent Modal -->
+  <div id="consentModal" class="modal">
+    <div class="modal-content">
+      <h3 style="margin-bottom: 25px; font-weight: 600;">Final Step</h3>
+      <p style="margin-bottom: 20px;">You'll be redirected to WhatsApp to complete your application</p>
+      
+      <div class="consent-checkbox">
+        <input type="checkbox" id="consent" required>
+        <label for="consent">I agree to proceed</label>
+      </div>
+      <button onclick="submitToWhatsApp()" class="submit-btn" style="margin-top: 15px;">CONTINUE</button>
+    </div>
+  </div>
+
+  <script>
+    // Initialize checkbox groups to behave like radio buttons
+    function setupCheckboxGroups() {
+      document.querySelectorAll('.checkbox-group').forEach(group => {
+        const checkboxes = group.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(checkbox => {
+          checkbox.addEventListener('change', () => {
+            if (checkbox.checked) {
+              checkboxes.forEach(cb => {
+                if (cb !== checkbox) cb.checked = false;
+              });
+            }
+          });
+        });
+      });
+    }
+    
+    // Calculate age from date of birth
+    function calculateAge() {
+      const dob = new Date(document.getElementById('dob').value);
+      if (isNaN(dob.getTime())) return;
+      
+      const ageDiff = Date.now() - dob.getTime();
+      const ageDate = new Date(ageDiff);
+      const age = Math.abs(ageDate.getUTCFullYear() - 1970);
+      document.getElementById('age').value = age;
+    }
+    
+    // Get selected value from checkbox group
+    function getSelectedValue(groupName) {
+      const checkbox = document.querySelector(`input[name="${groupName}"]:checked`);
+      return checkbox ? checkbox.value : '';
+    }
+    
+    // Validate form before submission
+    function validateForm() {
+      const requiredFields = [
+        'fullName', 'dob', 'mobile',
+        'doorNo', 'street', 'area', 'district', 'state', 'postalCode',
+        'aadhar', 'pan'
+      ];
+      
+      // Validate required fields
+      for (const fieldId of requiredFields) {
+        const field = document.getElementById(fieldId);
+        if (!field.value.trim()) {
+          alert(`Please fill in ${field.placeholder || fieldId.replace(/([A-Z])/g, ' $1').toLowerCase()}`);
+          field.focus();
+          return;
+        }
+      }
+      
+      // Validate checkbox groups
+      const checkboxGroups = ['gender', 'status', 'shift'];
+      for (const group of checkboxGroups) {
+        if (!getSelectedValue(group)) {
+          alert(`Please select your ${group}`);
+          return;
+        }
+      }
+      
+      // Validate mobile number format
+      if (!/^\d{10}$/.test(document.getElementById('mobile').value)) {
+        alert('Please enter a valid 10-digit mobile number');
+        return;
+      }
+      
+      // Validate postal code format
+      if (!/^\d{6}$/.test(document.getElementById('postalCode').value)) {
+        alert('Please enter a valid 6-digit postal code');
+        return;
+      }
+      
+      // Show consent modal
+      document.getElementById('consentModal').style.display = 'flex';
+    }
+    
+    // Submit data to WhatsApp
+    function submitToWhatsApp() {
+      if (!document.getElementById('consent').checked) {
+        alert('Please agree to proceed');
+        return;
+      }
+      
+      // Format WhatsApp message
+      const message = `*Jehovah Connect Application*\n\n` +
+        `*Personal Information*\n` +
+        `Name: ${document.getElementById('fullName').value.trim()}\n` +
+        `DOB: ${document.getElementById('dob').value} (Age: ${document.getElementById('age').value})\n` +
+        `Gender: ${getSelectedValue('gender')}\n` +
+        `Status: ${getSelectedValue('status')}\n\n` +
+        `*Contact Information*\n` +
+        `Mobile: ${document.getElementById('mobile').value.trim()}\n` +
+        `Address: ${document.getElementById('doorNo').value.trim()}, ${document.getElementById('street').value.trim()}, ` +
+        `${document.getElementById('area').value.trim()}, ${document.getElementById('district').value.trim()}, ` +
+        `${document.getElementById('state').value.trim()} - ${document.getElementById('postalCode').value.trim()}\n\n` +
+        `*Document Details*\n` +
+        `Aadhaar: ${document.getElementById('aadhar').value.trim()}\n` +
+        `PAN: ${document.getElementById('pan').value.trim()}\n` +
+        `Preferred Shift: ${getSelectedValue('shift')}\n\n` +
+        `Please send:\n` +
+        `1. Recent photograph\n` +
+        `2. Aadhaar (Front & Back)\n` +
+        `3. PAN Card copy`;
+      
+      // Redirect to WhatsApp
+      window.location.href = `https://wa.me/9566962769?text=${encodeURIComponent(message)}`;
+    }
+    
+    // Initialize on page load
+    window.onload = function() {
+      setupCheckboxGroups();
+    };
+  </script>
+</body>
+</html>
